@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+
+  hahn-ui:
+    container_name: hahn-ui
+    image: hahn/hahn-ui
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '80:80'
+    networks:
+      - hahn-network
+
+networks:
+  hahn-network:
+    name: hahn-net

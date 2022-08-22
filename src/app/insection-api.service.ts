@@ -9,33 +9,33 @@ export class InsectionApiService {
 
   constructor(private http: HttpClient) { }
 
-  readonly inspectionAPIUrl = 'http://localhost:8080/api';
+  readonly inspectionAPIUrl = 'https://localhost:9001/api/v1';
 
   getInspectionList(): Observable<any[]> {
-    return this.http.get<any>(this.inspectionAPIUrl + '/inspections')
+    return this.http.get<any>(this.inspectionAPIUrl + '/inspection')
   }
   addInspection(data: any) {
-    return this.http.post(this.inspectionAPIUrl + "/inspections", data)
+    return this.http.post(this.inspectionAPIUrl + "/inspection", data)
   }
   updateInspection(id: number | string, data: any) {
-    return this.http.put(this.inspectionAPIUrl + `/inspections/${id}`, data)
+    return this.http.put(this.inspectionAPIUrl + `/inspection/${id}`, data)
   }
   deleteInspection(id: number | string) {
-    return this.http.delete(this.inspectionAPIUrl + `/inspections/${id}`)
+    return this.http.delete(this.inspectionAPIUrl + `/inspection/${id}`)
   }
 
   //Inspection Types
   getInspectionTypesList(): Observable<any[]> {
-    return this.http.get<any>(this.inspectionAPIUrl + '/inspectiontypes')
+    return this.http.get<any>(this.inspectionAPIUrl + '/inspectiontype')
   }
   addInspectionTypes(data: any) {
-    return this.http.post(this.inspectionAPIUrl + "/inspectiontypes", data)
+    return this.http.post(this.inspectionAPIUrl + "/inspectiontype", data)
   }
   updateInspectionTypes(id: number | string, data: any) {
-    return this.http.put(this.inspectionAPIUrl + `/inspectiontypes/${id}`, data)
+    return this.http.put(this.inspectionAPIUrl + `/inspectiontype/${id}`, data)
   }
   deleteInspectionTypes(id: number | string) {
-    return this.http.delete(this.inspectionAPIUrl + `/inspectiontypes/${id}`)
+    return this.http.delete(this.inspectionAPIUrl + `/inspectiontype/${id}`)
   }
 
   //Statuses

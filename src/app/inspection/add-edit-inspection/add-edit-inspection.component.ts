@@ -1,6 +1,8 @@
 import { Component,Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { InsectionApiService } from 'src/app/insection-api.service';
+import { AddInspectionFormValidator } from 'src/Validator/AddFormValidator'
+import { UpdateInspectionFormValidator } from 'src/Validator/UpdateFormValidator'
 
 @Component({
   selector: 'app-add-edit-inspection',
@@ -34,27 +36,36 @@ export class AddEditInspectionComponent implements OnInit {
   }
 
   addInspection(){
+    
     let inspection={
       status:this.status,
       comments:this.comments,
       inspectionTypeId:this.inspectionTypeId
     }
-    this.service.addInspection(inspection).subscribe(res =>{
-      var closeModalBtn= document.getElementById('add-edit-modal-close');
-      if (closeModalBtn) {
-        closeModalBtn.click();
-      }
-      var showAddSuccess=document.getElementById('add-success-alert');
-      if (showAddSuccess) {
-        showAddSuccess.style.display='block';
-      }
-
-      setTimeout(()=>{
-        if (showAddSuccess) {
-          showAddSuccess.style.display='none';
+    let formValidator=new AddInspectionFormValidator();
+    var validate= formValidator.validate(inspection)
+    if (!Object.keys(validate).length) {
+      this.service.addInspection(inspection).subscribe(res =>{
+        var closeModalBtn= document.getElementById('add-edit-modal-close');
+        if (closeModalBtn) {
+          closeModalBtn.click();
         }
-      },4000)
-    });
+        var showAddSuccess=document.getElementById('add-success-alert');
+        if (showAddSuccess) {
+          showAddSuccess.style.display='block';
+        }
+  
+        setTimeout(()=>{
+          if (showAddSuccess) {
+            showAddSuccess.style.display='none';
+          }
+        },4000)
+      });
+    }
+    else{
+      formValidator.showErrorValidator(validate)
+    }
+
   }
   updateInspection(){
     let inspection={
@@ -64,6 +75,9 @@ export class AddEditInspectionComponent implements OnInit {
       inspectionTypeId:this.inspectionTypeId
     }
     var id:number=this.id;
+    let formValidator=new UpdateInspectionFormValidator();
+    var validate= formValidator.validate(inspection)
+    if (!Object.keys(validate).length) {
     this.service.updateInspection(id,inspection).subscribe(res =>{
       var closeModalBtn= document.getElementById('add-edit-modal-close');
       if (closeModalBtn) {
@@ -80,6 +94,10 @@ export class AddEditInspectionComponent implements OnInit {
         }
       },4000)
     });
+    }
+    else{
+      formValidator.showErrorValidator(validate);
+    }
   }
 
 
